@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stilesheet" href="style.css" type="text/css"/>
+     <title>Find_the_treasure</title>
+</head>
+<body>
+<h1 id="heading">"Найди клад !"</h1>
+
+<img id="map" width="700" height="700"
+src="https://ds04.infourok.ru/uploads/ex/0e8a/000997f1-cd820509/hello_html_1ab76e54.jpg">
+
+<h2 id="distance"></h2>
+<p id="inform"></p>
+
+
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script >
+        let getRandomNumber = function( size) {
+    return Math.floor(Math.random() * size);
+};
+let width = 700;
+let height = 700;
+let clicks = 0;
+
+let target = {
+    x: getRandomNumber(width),
+    y: getRandomNumber(height)
+};
+
+let getDistance = function(event, target) {
+    let diffX = event.offsetX - target.x;
+    let diffY = event.offsetY - target.y;
+    return Math.sqrt((diffX * diffX) - (diffY * diffY));
+};
+
+let getDistanceHint = function(distance) {
+    if ( distance < 10) {
+        return 'Обожжёшься !';
+    } else if (distance < 20) {
+        $('#inform').text('Вы близки к победе ! Осталось ' + (100 - clicks) + ' шансов');
+        return 'Очень горячо !';
+        
+    } else if (distance < 60) {        
+        return 'Горячо !';        
+    } else if ( distance < 100) {
+        return 'Тепло !';
+    } else if ( distance < 200) {
+        return 'Холодно !';
+    } else if (distance < 320) {
+        return 'Очень холодно!';
+    } else {
+        return 'Замерзнешь !';
+    }
+};
+ 
+
+$('#map').click(function (event) {
+clicks++;
+let distance = getDistance(event, target);
+let DistanceHint = getDistanceHint(distance);
+$('#distance').text(DistanceHint);
+if ( distance < 8) {
+    alert('Клад найден! Сделано попыток:' + clicks);
+}
+if ( clicks > 100) {
+    alert(' КОНЕЦ ИГРЫ !!! Вы превысили лимит поиска');
+    
+}
+});
+
+    </script>
+</body>
+
+</html>
